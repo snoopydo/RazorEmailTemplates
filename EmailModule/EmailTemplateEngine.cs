@@ -163,12 +163,7 @@ namespace EmailModule
                 return model;
             }
 
-            var propertyMap  = model.GetType()
-                                    .GetProperties()
-                                    .Where(property => property.CanRead && property.GetIndexParameters().Length == 0)
-                                    .ToDictionary(property => property.Name, property => property.GetValue(model, null));
-
-            return new EmailTemplateModelWrapper(propertyMap);
+            return new RazorDynamicObject() { Model = model };
         }
 
         private static RazorTemplateEngine CreateRazorEngine()
