@@ -50,6 +50,7 @@ namespace EmailModule
         protected virtual string BuildPath(string templateName, string suffix)
         {
             var fileName = templateName;
+            var templatePath = GetTemplatePath(templateName);
 
             if (!string.IsNullOrWhiteSpace(suffix))
             {
@@ -61,7 +62,16 @@ namespace EmailModule
                 fileName += FileExtension;
             }
 
-            var path = Path.Combine(TemplateDirectory, fileName);
+            var path = Path.Combine(templatePath , fileName);
+
+            return path;
+        }
+
+        public string GetTemplatePath(string templateName)
+        {
+
+            var fileName = templateName;
+            var path = Path.Combine(TemplateDirectory, templateName);
 
             return path;
         }

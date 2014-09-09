@@ -40,6 +40,11 @@ namespace EmailModule
                        {
                            var message = new MailMessage { From = new MailAddress(email.From), Subject = email.Subject };
 
+                           foreach (var attachmentFilePath in email.Attachments)
+                           {
+                               message.Attachments.Add(new Attachment(attachmentFilePath));
+                           }
+
                            if (!string.IsNullOrEmpty(email.Sender))
                            {
                                message.Sender = new MailAddress(email.Sender);

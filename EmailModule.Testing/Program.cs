@@ -3,6 +3,8 @@ namespace EmailModule
     using System;
     using System.IO;
     using System.Net.Mail;
+    using System.Linq;
+    using System.Collections.Generic;
 
     internal class Program
     {
@@ -18,7 +20,7 @@ namespace EmailModule
 
             EmailSubsystem subsystem = new EmailSubsystem("me@myself.com", templateEngine, sender);
 
-            subsystem.SendWelcomeMail("Jon Smith", "~!Agc2d#7", "jon@smith.com");
+            subsystem.SendWelcomeMail("Jon Smith", "~!Agc2d#7", "jon@smith.com", new List<string> (new string[]  {"Felipe","Felipe1","Felipe2"}));
 
             Console.WriteLine("Mail delivered, check the outbox folder.");
             Console.Read();
