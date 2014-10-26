@@ -53,6 +53,7 @@ namespace EmailModule
             Invariant.IsNotBlank(templateName, "templateName");
 
             var templates = CreateTemplateInstances(templateName);
+            var imageFiles = ReadImageFiles(templateName);
 
             foreach (var pair in templates)
             {
@@ -111,8 +112,10 @@ namespace EmailModule
                                                      };
 
             set(ContentTypes.Text, body => { mail.TextBody = body; });
-            set(ContentTypes.Html, body => { mail.HtmlBody = body; });
+            set(ContentTypes.Html, body => { mail.HtmlBody = body; });            
             set(string.Empty, null);
+
+            mail.Attachments = imageFiles;
 
             return mail;
         }
@@ -258,6 +261,21 @@ namespace EmailModule
             var assembly = GenerateAssembly(compliableTemplates);
 
             return templates.Select(x => new KeyValuePair<string, Type>(x.ContentType, assembly.GetType(NamespaceName + "." + x.TemplateName, true, false))).ToList();
+        }
+    
+        private IEnumerable <string> ReadImageFiles(string templateName)
+        {
+            string[] filePaths = null;
+            
+            var templatePath = ContentReader.GetTemplatePath(templateName);
+            var imagePath = Path.Combine(templatePath, "images");
+
+            if (!string.IsNullOrEmpty(imagePath) && Directory.Exists(imagePath))
+            {
+                filePaths = Directory.GetFiles(imagePath,"*.*", SearchOption.AllDirectories);
+            }
+
+            return filePaths;
         }
     }
 }

@@ -55,19 +55,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="templates\SendWelcomeMail.cshtml">
+    <Content Include="templates\SendWelcomeMail\images\fb.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\SendWelcomeMail\images\h1.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\SendWelcomeMail\images\left.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\SendWelcomeMail\images\right.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\SendWelcomeMail\images\tw.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\SendWelcomeMail\SendWelcomeMail.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="templates\SendWelcomeMail.html.cshtml">
+    <Content Include="templates\SendWelcomeMail\SendWelcomeMail.html.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="templates\SendWelcomeMail.text.cshtml">
+    <Content Include="templates\SendWelcomeMail\SendWelcomeMail.text.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="templates\SendWelcomeMail\images\.DS_Store" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,7 @@
 namespace EmailModule
 {
+    using System.Collections.Generic;
+
     public class EmailSubsystem
     {
         public const string SendWelcomeMailTemplateName = "SendWelcomeMail";
@@ -21,7 +23,7 @@ namespace EmailModule
 
         protected string FromAddress { get; private set; }
 
-        public virtual void SendWelcomeMail(string name, string password, string email)
+        public virtual void SendWelcomeMail(string name, string password, string email, IList<string> names)
         {
             var model = new
                         {
@@ -36,7 +38,8 @@ namespace EmailModule
                                 Suburb = "Bl Blaburb",
                                 City = "Metroplis",
                                 PostCode = 90210
-                            }
+                            },
+                            Names = names
                         };
 
             var mail = TemplateEngine.Execute(SendWelcomeMailTemplateName, model);

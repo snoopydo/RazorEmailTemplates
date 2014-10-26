@@ -34,5 +34,7 @@ namespace EmailModule
         public string HtmlBody { get; set; }
 
         public string TextBody { get; set; }
+
+        public IEnumerable<string> Attachments { get; set; }
     }
 }
