@@ -1,5 +1,43 @@
 ﻿@{
-    From = Model.From;
-    To.Add(Model.To);
-    Subject = "Welcome to mysite.com";
+	From = Model.From;
+	To.Add(Model.To);
+	Subject = "Welcome to mysite.com";
 }
+
+@functions {
+	static int _counter = 1;
+	int GetId() { return _counter++; }
+}
+
+@section Text {
+	@GetId()
+	Dear @Model.Name,
+
+	An account has been created for you.
+
+	Your account is FREE and allows you to perform bla bla features.
+
+	To login and complete your profile, please go to:
+
+	@Model.LogOnUrl
+
+	Your User ID is your email address and password is: @Model.Password
+}
+
+@section Html {
+	<body>
+		@GetId()
+		<p>Dear @Model.Name,</p>
+		<p>An account has been created for you.</p>
+		<p>Your account is FREE and allows you to perform bla bla features.</p>
+		<p>To login and complete your profile, please go to:</p>
+		<p><a href="@Model.LogOnUrl">@Model.LogOnUrl</a></p>
+		<p>Your User ID is your email address and password is: @Model.Password</p>
+		<p>@Model.Address.Street</p>
+		<p>@Model.Address.Suburb</p>
+		<p>@Model.Address.City @Model.Address.PostCode</p>
+	</body>
+}
+
+@GetId()
+plain old body :)
