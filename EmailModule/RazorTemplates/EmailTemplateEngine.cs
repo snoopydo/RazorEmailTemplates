@@ -12,7 +12,7 @@ using Utils;
 
 namespace RazorTemplates
 {
-	public class EmailTemplateEngine : IEmailTemplateEngine
+	public class EmailTemplateEngine : IRazorTemplateEngine
 	{
 		private const string NamespaceName = "_TemplateEngine";
 

@@ -84,12 +84,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorTemplates\AttributeValue.cs" />
     <Compile Include="RazorTemplates\EmailTemplateEngine.cs" />
-    <Compile Include="RazorTemplates\EmailTemplateModelWrapper.cs" />
-    <Compile Include="RazorTemplates\FileSystemEmailTemplateContentReader.cs" />
+    <Compile Include="RazorTemplates\FileSystemRazorTemplateContentReader.cs" />
     <Compile Include="RazorTemplates\HashCodeCombiner.cs" />
-    <Compile Include="RazorTemplates\IEmailTemplateContentReader.cs" />
-    <Compile Include="RazorTemplates\IEmailTemplateEngine.cs" />
+    <Compile Include="RazorTemplates\IRazorTemplateContentReader.cs" />
+    <Compile Include="RazorTemplates\IRazorTemplateEngine.cs" />
     <Compile Include="RazorTemplates\PositionTagged.cs" />
+    <Compile Include="RazorTemplates\TemplateModelWrapper.cs" />
     <Compile Include="RazorTemplates\TemplateRazorEngineHost.cs" />
   </ItemGroup>
   <ItemGroup>

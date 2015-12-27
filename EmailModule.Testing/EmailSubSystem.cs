@@ -7,7 +7,7 @@ namespace EmailModule
     {
         public const string SendWelcomeMailTemplateName = "SendWelcomeMail.cshtml";
 
-        public EmailSubsystem(string fromAddress, IEmailTemplateEngine templateEngine, IEmailSender sender)
+        public EmailSubsystem(string fromAddress, IRazorTemplateEngine templateEngine, IEmailSender sender)
         {
             Invariant.IsNotBlank(fromAddress, "fromAddress");
             Invariant.IsNotNull(templateEngine, "templateEngine");
@@ -18,7 +18,7 @@ namespace EmailModule
             Sender = sender;
         }
 
-        protected IEmailTemplateEngine TemplateEngine { get; private set; }
+        protected IRazorTemplateEngine TemplateEngine { get; private set; }
 
         protected IEmailSender Sender { get; private set; }
 
