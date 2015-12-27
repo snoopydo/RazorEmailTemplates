@@ -20,8 +20,9 @@ namespace EmailModule
 
 		string Subject { get; set; }
 
-		string Body { get; }
-
+		string HtmlBody { get; }
+		string TextBody { get; }
+		
 		void SetModel(dynamic model);
 
 		void Render();

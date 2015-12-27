@@ -41,9 +41,8 @@ namespace EmailModule
 
 		public string Subject { get; set; }
 
-		public string Body {get;private set;}
-		public string Html { get; private set; }
-		public string Text { get; private set; }
+		public string HtmlBody { get; private set; }
+		public string TextBody { get; private set; }
 		
 		protected dynamic Model { get; private set; }
 
@@ -58,20 +57,20 @@ namespace EmailModule
 		public void Render()
 		{
 			Execute();
-			Body = buffer.ToString();
+			TextBody = buffer.ToString();
 
 			if (SectionWriters.ContainsKey("Html"))
 			{
 				buffer.Clear();
 				SectionWriters["Html"].Invoke();
-				Html = buffer.ToString();
+				HtmlBody = buffer.ToString();
 			}
 
 			if (SectionWriters.ContainsKey("Text"))
 			{
 				buffer.Clear();
 				SectionWriters["Text"].Invoke();
-				Text = buffer.ToString();
+				TextBody = buffer.ToString();
 			}
 
 
