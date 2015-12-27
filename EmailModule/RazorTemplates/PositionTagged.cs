@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace EmailModule
+namespace RazorTemplates
 {
 	[DebuggerDisplay("({Position})\"{Value}\"")]
 	public class PositionTagged<T>

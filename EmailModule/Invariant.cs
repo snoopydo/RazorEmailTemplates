@@ -1,4 +1,4 @@
-namespace EmailModule
+namespace Utils
 {
     using System;
     using System.Globalization;

@@ -1,4 +1,4 @@
-namespace EmailModule
+namespace Postman
 {
     public interface IEmailSender
     {

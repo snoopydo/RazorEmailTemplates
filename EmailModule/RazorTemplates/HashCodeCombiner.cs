@@ -3,7 +3,7 @@
 
 using System.Collections;
 
-namespace EmailModule
+namespace RazorTemplates
 {
 	internal class HashCodeCombiner
 	{

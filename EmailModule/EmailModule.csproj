@@ -71,6 +71,7 @@
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Invariant.cs" />
     <Compile Include="Postman\ContentTypes.cs" />
     <Compile Include="Postman\Email.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="RazorTemplates\AttributeValue.cs" />
     <Compile Include="RazorTemplates\EmailTemplateEngine.cs" />
     <Compile Include="RazorTemplates\EmailTemplateModelWrapper.cs" />
-    <Compile Include="RazorTemplates\EnumerableExtensions.cs" />
     <Compile Include="RazorTemplates\FileSystemEmailTemplateContentReader.cs" />
     <Compile Include="RazorTemplates\HashCodeCombiner.cs" />
     <Compile Include="RazorTemplates\IEmailTemplateContentReader.cs" />

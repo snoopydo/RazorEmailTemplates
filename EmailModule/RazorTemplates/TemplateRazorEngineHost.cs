@@ -6,7 +6,7 @@ using System.Web.Razor;
 using System.Web.Razor.Generator;
 using System.Web.Razor.Parser;
 
-namespace EmailModule
+namespace RazorTemplates
 {
 	public class TemplateRazorEngineHost : RazorEngineHost
 	{

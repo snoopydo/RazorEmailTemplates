@@ -1,7 +1,8 @@
-namespace EmailModule
+namespace RazorTemplates
 {
     public interface IEmailTemplateEngine
     {
-        Email Execute(string templateName, object model = null);
+		// todo: fix this, should be generic base template.
+        Postman.Email Execute(string templateName, object model = null);
     }
 }

@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace EmailModule
+namespace RazorTemplates
 {
 	public class AttributeValue
 	{

@@ -1,6 +1,7 @@
-namespace EmailModule
+using System.Collections.Generic;
+
+namespace Postman
 {
-	using System.Collections.Generic;
 
 	public interface IEmailTemplate
 	{
@@ -22,7 +23,7 @@ namespace EmailModule
 
 		string HtmlBody { get; }
 		string TextBody { get; }
-		
+
 		void SetModel(dynamic model);
 
 		void Render();

@@ -1,4 +1,4 @@
-namespace EmailModule
+namespace RazorTemplates
 {
     public interface IEmailTemplateContentReader
     {

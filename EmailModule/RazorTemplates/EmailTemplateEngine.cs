@@ -1,16 +1,17 @@
-namespace EmailModule
-{
-	using System;
-	using System.CodeDom.Compiler;
-	using System.Collections.Generic;
-	using System.Dynamic;
-	using System.IO;
-	using System.Linq;
-	using System.Reflection;
-	using System.Threading;
-	using System.Web.Razor;
-	using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Web.Razor;
+using Microsoft.CSharp;
+using Utils;
 
+namespace RazorTemplates
+{
 	public class EmailTemplateEngine : IEmailTemplateEngine
 	{
 		private const string NamespaceName = "_TemplateEngine";
@@ -28,7 +29,8 @@ namespace EmailModule
 
 		protected IEmailTemplateContentReader ContentReader { get; private set; }
 
-		public virtual Email Execute(string templateName, object model = null)
+		// todo: fix to use generic template base
+		public virtual Postman.Email Execute(string templateName, object model = null)
 		{
 			Invariant.IsNotBlank(templateName, "templateName");
 
@@ -37,7 +39,8 @@ namespace EmailModule
 			template.SetModel(WrapModel(model));
 			template.Render();
 
-			var mail = new Email();
+			// todo: fix to use generic template base
+			var mail = new Postman.Email();
 
 			template.To.Each(email => mail.To.Add(email));
 
@@ -124,9 +127,11 @@ namespace EmailModule
 
 		private static RazorTemplateEngine CreateRazorEngine()
 		{
+			// todo: determine correct RazorCodeLanguage via template name.
 			var host = new TemplateRazorEngineHost(new CSharpRazorCodeLanguage())
 			{
-				DefaultBaseClass = typeof(EmailTemplate).FullName,
+				// todo: should be generic template type that is passed in.
+				DefaultBaseClass = typeof(Postman.EmailTemplate).FullName,
 				DefaultNamespace = NamespaceName
 			};
 
@@ -154,9 +159,10 @@ namespace EmailModule
                        };
 		}
 
-		private IEmailTemplate CreateTemplateInstances(string templateName)
+		// todo: fix up to use generic template base.
+		private Postman.IEmailTemplate CreateTemplateInstances(string templateName)
 		{
-			return (IEmailTemplate)Activator.CreateInstance(GetTemplateTypes(templateName));
+			return (Postman.IEmailTemplate)Activator.CreateInstance(GetTemplateTypes(templateName));
 		}
 
 		private Type GetTemplateTypes(string templateName)

@@ -1,24 +1,24 @@
+using System;
+using System.Globalization;
+
 namespace EmailModule
 {
-    using System;
-    using System.Globalization;
+	internal static class Invariant
+	{
+		public static void IsNotNull(object target, string parameterName)
+		{
+			if (target == null)
+			{
+				throw new ArgumentNullException(parameterName);
+			}
+		}
 
-    internal static class Invariant
-    {
-        public static void IsNotNull(object target, string parameterName)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(parameterName);
-            }
-        }
-
-        public static void IsNotBlank(string target, string parameterName)
-        {
-            if (string.IsNullOrEmpty(target))
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, "\"{0}\" cannot be blank.", parameterName));
-            }
-        }
-    }
+		public static void IsNotBlank(string target, string parameterName)
+		{
+			if (string.IsNullOrEmpty(target))
+			{
+				throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, "\"{0}\" cannot be blank.", parameterName));
+			}
+		}
+	}
 }

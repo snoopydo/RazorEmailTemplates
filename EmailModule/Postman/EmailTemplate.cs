@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Web.Razor;
+using RazorTemplates;
 
-namespace EmailModule
+	
+// todo: fix this should be a generic template base in RazorTemplates
+namespace Postman
 {
+
 	public delegate void SectionWriter();
 
 	public abstract class EmailTemplate : IEmailTemplate
