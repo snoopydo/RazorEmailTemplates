@@ -71,26 +71,26 @@
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeValue.cs" />
-    <Compile Include="ContentTypes.cs" />
-    <Compile Include="Email.cs" />
-    <Compile Include="EmailSender.cs" />
-    <Compile Include="EmailTemplate.cs" />
-    <Compile Include="EmailTemplateEngine.cs" />
-    <Compile Include="EmailTemplateModelWrapper.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="FileSystemEmailTemplateContentReader.cs" />
-    <Compile Include="HashCodeCombiner.cs" />
-    <Compile Include="IEmailSender.cs" />
-    <Compile Include="IEmailTemplate.cs" />
-    <Compile Include="IEmailTemplateContentReader.cs" />
-    <Compile Include="IEmailTemplateEngine.cs" />
     <Compile Include="Invariant.cs" />
-    <Compile Include="ISmtpClient.cs" />
-    <Compile Include="PositionTagged.cs" />
+    <Compile Include="Postman\ContentTypes.cs" />
+    <Compile Include="Postman\Email.cs" />
+    <Compile Include="Postman\EmailSender.cs" />
+    <Compile Include="Postman\EmailTemplate.cs" />
+    <Compile Include="Postman\IEmailSender.cs" />
+    <Compile Include="Postman\IEmailTemplate.cs" />
+    <Compile Include="Postman\ISmtpClient.cs" />
+    <Compile Include="Postman\SmtpClientWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmtpClientWrapper.cs" />
-    <Compile Include="TemplateRazorEngineHost.cs" />
+    <Compile Include="RazorTemplates\AttributeValue.cs" />
+    <Compile Include="RazorTemplates\EmailTemplateEngine.cs" />
+    <Compile Include="RazorTemplates\EmailTemplateModelWrapper.cs" />
+    <Compile Include="RazorTemplates\EnumerableExtensions.cs" />
+    <Compile Include="RazorTemplates\FileSystemEmailTemplateContentReader.cs" />
+    <Compile Include="RazorTemplates\HashCodeCombiner.cs" />
+    <Compile Include="RazorTemplates\IEmailTemplateContentReader.cs" />
+    <Compile Include="RazorTemplates\IEmailTemplateEngine.cs" />
+    <Compile Include="RazorTemplates\PositionTagged.cs" />
+    <Compile Include="RazorTemplates\TemplateRazorEngineHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
