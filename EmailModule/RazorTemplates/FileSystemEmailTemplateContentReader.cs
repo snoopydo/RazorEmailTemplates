@@ -5,14 +5,14 @@ using Utils;
 
 namespace RazorTemplates
 {
-	public class FileSystemEmailTemplateContentReader : IEmailTemplateContentReader
+	public class FileSystemRazorTemplateContentReader : IRazorTemplateContentReader
 	{
-		public FileSystemEmailTemplateContentReader()
-			: this("templates", ".cshtml")
+		public FileSystemRazorTemplateContentReader()
+			: this("templates")
 		{
 		}
 
-		public FileSystemEmailTemplateContentReader(string templateDirectory, string fileExtension)
+		public FileSystemRazorTemplateContentReader(string templateDirectory)
 		{
 			Invariant.IsNotBlank(templateDirectory, "templateDirectory");
 
@@ -27,19 +27,16 @@ namespace RazorTemplates
 			}
 
 			TemplateDirectory = templateDirectory;
-			FileExtension = fileExtension;
 		}
 
 		protected string TemplateDirectory { get; private set; }
 
-		protected string FileExtension { get; private set; }
-
-		public string Read(string templateName, string suffix)
+		public string Read(string templateName)
 		{
 			Invariant.IsNotBlank(templateName, "templateName");
 
 			var content = string.Empty;
-			var path = BuildPath(templateName, suffix);
+			var path = BuildPath(templateName);
 
 			if (File.Exists(path))
 			{
@@ -49,19 +46,9 @@ namespace RazorTemplates
 			return content;
 		}
 
-		protected virtual string BuildPath(string templateName, string suffix)
+		protected virtual string BuildPath(string templateName)
 		{
 			var fileName = templateName;
-
-			if (!string.IsNullOrWhiteSpace(suffix))
-			{
-				fileName += "." + suffix;
-			}
-
-			if (!string.IsNullOrWhiteSpace(FileExtension))
-			{
-				fileName += FileExtension;
-			}
 
 			var path = Path.Combine(TemplateDirectory, fileName);
 

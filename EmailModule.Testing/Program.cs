@@ -10,7 +10,7 @@ namespace EmailModule
 	{
 		public static void Main()
 		{
-			IEmailTemplateContentReader templateReader = new FileSystemEmailTemplateContentReader();
+			IRazorTemplateContentReader templateReader = new FileSystemRazorTemplateContentReader();
 			IEmailTemplateEngine templateEngine = new EmailTemplateEngine(templateReader);
 
 			IEmailSender sender = new EmailSender

@@ -22,12 +22,12 @@ namespace RazorTemplates
 		private static readonly string[] referencedAssemblies = BuildReferenceList().ToArray();
 		private static readonly RazorTemplateEngine razorEngine = CreateRazorEngine();
 
-		public EmailTemplateEngine(IEmailTemplateContentReader contentReader)
+		public EmailTemplateEngine(IRazorTemplateContentReader contentReader)
 		{
 			ContentReader = contentReader;
 		}
 
-		protected IEmailTemplateContentReader ContentReader { get; private set; }
+		protected IRazorTemplateContentReader ContentReader { get; private set; }
 
 		// todo: fix to use generic template base
 		public virtual Postman.Email Execute(string templateName, object model = null)
@@ -74,11 +74,12 @@ namespace RazorTemplates
 			return mail;
 		}
 
-		protected virtual Assembly GenerateAssembly(string templateName, string source)
+		protected virtual Assembly GenerateAssembly(string className, string source)
 		{
 			var assemblyName = NamespaceName + "." + Guid.NewGuid().ToString("N") + ".dll";
 
-			var templateResults = razorEngine.GenerateCode(new StringReader(source), templateName, NamespaceName, templateName + ".cs");
+
+			var templateResults = razorEngine.GenerateCode(new StringReader(source), className, NamespaceName, className + ".cs");
 
 			if (templateResults.ParserErrors.Any())
 			{
@@ -198,11 +199,13 @@ namespace RazorTemplates
 
 		private Type GenerateTemplateTypes(string templateName)
 		{
-			var source = ContentReader.Read(templateName, "");
+			var source = ContentReader.Read(templateName);
+			
+			var className = templateName.Replace(".", "_");
 
-			var assembly = GenerateAssembly(templateName, source);
+			var assembly = GenerateAssembly(className, source);
 
-			return assembly.GetType(NamespaceName + "." + templateName, true, false);
+			return assembly.GetType(NamespaceName + "." + className, true, false);
 		}
 	}
 }

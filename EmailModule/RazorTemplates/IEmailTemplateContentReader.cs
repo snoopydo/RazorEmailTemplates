@@ -1,7 +1,7 @@
 namespace RazorTemplates
 {
-    public interface IEmailTemplateContentReader
+    public interface IRazorTemplateContentReader
     {
-        string Read(string templateName, string suffix);
+        string Read(string templateName);
     }
 }

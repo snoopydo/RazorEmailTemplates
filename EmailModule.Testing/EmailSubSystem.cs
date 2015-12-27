@@ -5,7 +5,7 @@ namespace EmailModule
 {
     public class EmailSubsystem
     {
-        public const string SendWelcomeMailTemplateName = "SendWelcomeMail";
+        public const string SendWelcomeMailTemplateName = "SendWelcomeMail.cshtml";
 
         public EmailSubsystem(string fromAddress, IEmailTemplateEngine templateEngine, IEmailSender sender)
         {
