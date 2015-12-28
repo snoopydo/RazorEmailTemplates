@@ -5,14 +5,11 @@ using Utils;
 
 namespace RazorTemplates
 {
-	public class FileSystemRazorTemplateContentReader : IRazorTemplateContentReader
+	public class FileSystemTemplateContentReader : ITemplateContentReader
 	{
-		public FileSystemRazorTemplateContentReader()
-			: this("templates")
-		{
-		}
+		public FileSystemTemplateContentReader() : this("templates") { }
 
-		public FileSystemRazorTemplateContentReader(string templateDirectory)
+		public FileSystemTemplateContentReader(string templateDirectory)
 		{
 			Invariant.IsNotBlank(templateDirectory, "templateDirectory");
 
@@ -31,7 +28,7 @@ namespace RazorTemplates
 
 		protected string TemplateDirectory { get; private set; }
 
-		public string Read(string templateName)
+		public string ReadTemplate(string templateName)
 		{
 			Invariant.IsNotBlank(templateName, "templateName");
 
@@ -46,7 +43,12 @@ namespace RazorTemplates
 			return content;
 		}
 
-		protected virtual string BuildPath(string templateName)
+		public Stream ReadResource(string resourceName)
+		{
+			return new MemoryStream();
+		}
+
+		private string BuildPath(string templateName)
 		{
 			var fileName = templateName;
 

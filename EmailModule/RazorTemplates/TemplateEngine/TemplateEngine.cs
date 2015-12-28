@@ -9,73 +9,73 @@ using System.Threading;
 using System.Web.Razor;
 using Microsoft.CSharp;
 using Utils;
+using RazorTemplates;
 
 namespace RazorTemplates
 {
-	public class EmailTemplateEngine : IRazorTemplateEngine
+	public class TemplateEngine 
 	{
 		private const string NamespaceName = "_TemplateEngine";
 
+		// cache of 'compiled' templates
 		private static readonly Dictionary<string, Type> typeMapping = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
 		private static readonly ReaderWriterLockSlim syncLock = new ReaderWriterLockSlim();
 
-		private static readonly string[] referencedAssemblies = BuildReferenceList().ToArray();
-		private static readonly RazorTemplateEngine razorEngine = CreateRazorEngine();
-
-		public EmailTemplateEngine(IRazorTemplateContentReader contentReader)
+		public TemplateEngine(ITemplateContentReader contentReader)
 		{
 			ContentReader = contentReader;
 		}
 
-		protected IRazorTemplateContentReader ContentReader { get; private set; }
+		protected ITemplateContentReader ContentReader { get; private set; }
 
 		// todo: fix to use generic template base
-		public virtual Postman.Email Execute(string templateName, object model = null)
+		//public virtual Postman.Email Execute(string templateName, object model = null)
+		//{
+		//	Invariant.IsNotBlank(templateName, "templateName");
+
+		//	var template = CreateTemplateInstances(templateName);
+
+		//	template.SetModel(WrapModel(model));
+		//	template.Render();
+
+		//	// todo: fix to use generic template base
+		//	var mail = new Postman.Email();
+
+		//	template.To.Each(email => mail.To.Add(email));
+
+		//	template.ReplyTo.Each(email => mail.ReplyTo.Add(email));
+
+		//	template.Bcc.Each(email => mail.Bcc.Add(email));
+
+		//	template.CC.Each(email => mail.CC.Add(email));
+
+
+		//	if (!string.IsNullOrWhiteSpace(template.From))
+		//	{
+		//		mail.From = template.From;
+		//	}
+
+		//	if (!string.IsNullOrWhiteSpace(template.Sender))
+		//	{
+		//		mail.Sender = template.Sender;
+		//	}
+
+		//	if (!string.IsNullOrWhiteSpace(template.Subject))
+		//	{
+		//		mail.Subject = template.Subject;
+		//	}
+
+		//	mail.HtmlBody = template.HtmlBody;
+		//	mail.TextBody = template.TextBody;
+
+		//	template.Headers.Each(pair => mail.Headers[pair.Key] = pair.Value);
+
+		//	return mail;
+		//}
+
+		protected Assembly GenerateAssembly<T>(RazorTemplateEngine razorEngine, string className, string source)
 		{
-			Invariant.IsNotBlank(templateName, "templateName");
-
-			var template = CreateTemplateInstances(templateName);
-
-			template.SetModel(WrapModel(model));
-			template.Render();
-
-			// todo: fix to use generic template base
-			var mail = new Postman.Email();
-
-			template.To.Each(email => mail.To.Add(email));
-
-			template.ReplyTo.Each(email => mail.ReplyTo.Add(email));
-
-			template.Bcc.Each(email => mail.Bcc.Add(email));
-
-			template.CC.Each(email => mail.CC.Add(email));
-
-
-			if (!string.IsNullOrWhiteSpace(template.From))
-			{
-				mail.From = template.From;
-			}
-
-			if (!string.IsNullOrWhiteSpace(template.Sender))
-			{
-				mail.Sender = template.Sender;
-			}
-
-			if (!string.IsNullOrWhiteSpace(template.Subject))
-			{
-				mail.Subject = template.Subject;
-			}
-
-			mail.HtmlBody = template.HtmlBody;
-			mail.TextBody = template.TextBody;
-
-			template.Headers.Each(pair => mail.Headers[pair.Key] = pair.Value);
-
-			return mail;
-		}
-
-		protected virtual Assembly GenerateAssembly(string className, string source)
-		{
+			string[] referencedAssemblies = BuildReferenceList<T>().ToArray();
 			var assemblyName = NamespaceName + "." + Guid.NewGuid().ToString("N") + ".dll";
 
 
@@ -97,7 +97,7 @@ namespace RazorTemplates
 				};
 
 				compilerParameter.TempFiles.KeepFiles = true;
-
+				
 				var compilerResults = codeProvider.CompileAssemblyFromDom(compilerParameter, templateResults.GeneratedCode);
 
 				if (compilerResults.Errors.HasErrors)
@@ -126,16 +126,15 @@ namespace RazorTemplates
 			return new RazorDynamicObject() { Model = model };
 		}
 
-		private static RazorTemplateEngine CreateRazorEngine()
+		private static RazorTemplateEngine CreateRazorEngine<T>(RazorCodeLanguage codeLanguage)
 		{
-			// todo: determine correct RazorCodeLanguage via template name.
-			var host = new TemplateRazorEngineHost(new CSharpRazorCodeLanguage())
+
+			var host = new TemplateRazorEngineHost(codeLanguage)
 			{
 				// todo: should be generic template type that is passed in.
-				DefaultBaseClass = typeof(Postman.EmailTemplate).FullName,
+				DefaultBaseClass = typeof(T).FullName,
 				DefaultNamespace = NamespaceName
 			};
-
 
 			host.NamespaceImports.Add("System");
 			host.NamespaceImports.Add("System.Collections");
@@ -146,9 +145,10 @@ namespace RazorTemplates
 			return new RazorTemplateEngine(host);
 		}
 
-		private static IEnumerable<string> BuildReferenceList()
+		private static IEnumerable<string> BuildReferenceList<T>()
 		{
-			string currentAssemblyLocation = typeof(EmailTemplateEngine).Assembly.CodeBase.Replace("file:///", string.Empty).Replace("/", "\\");
+			string currentAssemblyLocation = typeof(TemplateEngine).Assembly.CodeBase.Replace("file:///", string.Empty).Replace("/", "\\");
+			string currentTemplateLocation = typeof(T).Assembly.CodeBase.Replace("file:///", string.Empty).Replace("/", "\\");
 
 			return new List<string>
                        {
@@ -156,22 +156,21 @@ namespace RazorTemplates
                            "system.dll",
                            "system.core.dll",
                            "microsoft.csharp.dll",
-                           currentAssemblyLocation
+                           currentAssemblyLocation,
+						   currentTemplateLocation
                        };
 		}
 
-		// todo: fix up to use generic template base.
-		private Postman.IEmailTemplate CreateTemplateInstances(string templateName)
+		private T CreateTemplateInstances<T>(string templateName)
 		{
-			return (Postman.IEmailTemplate)Activator.CreateInstance(GetTemplateTypes(templateName));
+			return (T)Activator.CreateInstance(GetTemplateTypes<T>(templateName));
 		}
 
-		private Type GetTemplateTypes(string templateName)
+		private Type GetTemplateTypes<T>(string templateName)
 		{
 			Type templateTypes;
 
 			syncLock.EnterUpgradeableReadLock();
-
 			try
 			{
 				if (!typeMapping.TryGetValue(templateName, out templateTypes))
@@ -180,7 +179,7 @@ namespace RazorTemplates
 
 					try
 					{
-						templateTypes = GenerateTemplateTypes(templateName);
+						templateTypes = GenerateTemplateTypes<T>(templateName);
 						typeMapping.Add(templateName, templateTypes);
 					}
 					finally
@@ -197,15 +196,53 @@ namespace RazorTemplates
 			return templateTypes;
 		}
 
-		private Type GenerateTemplateTypes(string templateName)
+		private Type GenerateTemplateTypes<T>(string templateName)
 		{
-			var source = ContentReader.Read(templateName);
-			
+			var source = ContentReader.ReadTemplate(templateName);
+
 			var className = templateName.Replace(".", "_");
 
-			var assembly = GenerateAssembly(className, source);
+			// determine language, pass into generateAssembly
+			RazorCodeLanguage codeLanguage;
+
+			switch (templateName.Substring(templateName.LastIndexOf(".")))
+			{
+				case ".cshtml":
+					codeLanguage = new CSharpRazorCodeLanguage();
+					break;
+
+				case ".vbhtml":
+					codeLanguage = new VBRazorCodeLanguage();
+					break;
+
+				default:
+					throw new ApplicationException("Unsupported Template language. Either .cshtml or .vbhtml");
+			}
+
+			var razorEngine = CreateRazorEngine<T>(codeLanguage);
+
+			var assembly = GenerateAssembly<T>(razorEngine, className, source);
 
 			return assembly.GetType(NamespaceName + "." + className, true, false);
 		}
+
+
+
+
+		// ****************************************************************************************
+
+
+		public T Execute<T>(string templateName, object model = null) where T:TemplateBase
+		{
+			var template = CreateTemplateInstances<T>(templateName);
+
+			template.SetModel(WrapModel(model));
+			template.Render();
+					
+			return template;
+		}
+
+
+
 	}
 }

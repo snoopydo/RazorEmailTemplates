@@ -10,8 +10,8 @@ namespace EmailModule
 	{
 		public static void Main()
 		{
-			IRazorTemplateContentReader templateReader = new FileSystemRazorTemplateContentReader();
-			IRazorTemplateEngine templateEngine = new EmailTemplateEngine(templateReader);
+			ITemplateContentReader templateReader = new FileSystemTemplateContentReader();
+			ITemplateEngine templateEngine = new EmailTemplateEngine(templateReader);
 
 			IEmailSender sender = new EmailSender
 									  {

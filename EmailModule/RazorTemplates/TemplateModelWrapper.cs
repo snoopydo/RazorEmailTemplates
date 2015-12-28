@@ -28,38 +28,42 @@ namespace RazorTemplates
 				return dynamicObject.TryGetMember(binder, out result);
 
 			Type modelType = Model.GetType();
+
 			var prop = modelType.GetProperty(binder.Name);
-			if (prop == null)
+			var field = modelType.GetField(binder.Name);
+
+			if (prop == null && field == null)
 			{
 				result = null;
 				return false;
 			}
 
-			object value = prop.GetValue(Model, null);
+			object value = prop != null ? prop.GetValue(Model, null) : field.GetValue(Model);
 			if (value == null)
 			{
-				result = value;
+				result = null;
 				return true;
 			}
 
 			Type valueType = value.GetType();
-			result = (IsAnonymousType(valueType))
-						 ? new RazorDynamicObject { Model = value }
-						 : value;
+			//result = (IsAnonymousType(valueType)) ? new RazorDynamicObject { Model = value } : value;
+
+			result = valueType.FullName.StartsWith("System.") ? value : new RazorDynamicObject { Model = value };
+
 			return true;
 		}
 
-		private static bool IsAnonymousType(Type type)
-		{
-			if (type == null)
-				throw new ArgumentNullException("type");
+		//private static bool IsAnonymousType(Type type)
+		//{
+		//	if (type == null)
+		//		throw new ArgumentNullException("type");
 
-			return (type.IsClass
-					&& type.IsSealed
-					&& type.BaseType == typeof(object)
-					&& (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$Anonymous"))
-					&& type.IsDefined(typeof(CompilerGeneratedAttribute), true));
-		}
+		//	return (type.IsClass
+		//			&& type.IsSealed
+		//			&& type.BaseType == typeof(object)
+		//			&& (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$Anonymous"))
+		//			&& type.IsDefined(typeof(CompilerGeneratedAttribute), true));
+		//}
 
 		#endregion
 	}

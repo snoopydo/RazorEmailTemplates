@@ -8,7 +8,7 @@ using System.Web.Razor.Parser;
 
 namespace RazorTemplates
 {
-	public class TemplateRazorEngineHost : RazorEngineHost
+	class TemplateRazorEngineHost : RazorEngineHost
 	{
 		internal const string DefineSectionMethodName = "DefineSection";
 		internal const string WriteToMethodName = "WriteTo";
@@ -17,7 +17,7 @@ namespace RazorTemplates
 		internal const string EndContextMethodName = "EndContext";
 
 
-		private const string TemplateTypeName = "goober";	// used when @helper <func> {} is defined.
+		private const string TemplateTypeName = "";	// used when @helper <func> {} is defined. not currently implemented
 
 		private TemplateRazorEngineHost()
 		{
@@ -36,13 +36,13 @@ namespace RazorTemplates
 		public TemplateRazorEngineHost(RazorCodeLanguage codeLanguage)
 			: this()
 		{
-			CodeLanguage = codeLanguage;	
+			CodeLanguage = codeLanguage;
 		}
 
-		 public override ParserBase CreateMarkupParser() 
-         { 
-             return new HtmlMarkupParser(); 
-         } 
+		public override ParserBase CreateMarkupParser()
+		{
+			return new HtmlMarkupParser();
+		}
 
 	}
 }

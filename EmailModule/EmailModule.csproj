@@ -73,22 +73,14 @@
   <ItemGroup>
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Invariant.cs" />
-    <Compile Include="Postman\ContentTypes.cs" />
-    <Compile Include="Postman\Email.cs" />
-    <Compile Include="Postman\EmailSender.cs" />
-    <Compile Include="Postman\EmailTemplate.cs" />
-    <Compile Include="Postman\IEmailSender.cs" />
-    <Compile Include="Postman\IEmailTemplate.cs" />
-    <Compile Include="Postman\ISmtpClient.cs" />
-    <Compile Include="Postman\SmtpClientWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorTemplates\AttributeValue.cs" />
-    <Compile Include="RazorTemplates\EmailTemplateEngine.cs" />
-    <Compile Include="RazorTemplates\FileSystemRazorTemplateContentReader.cs" />
+    <Compile Include="RazorTemplates\ContentReader\FileSystemRazorTemplateContentReader.cs" />
+    <Compile Include="RazorTemplates\ContentReader\ITemplateContentReader.cs" />
     <Compile Include="RazorTemplates\HashCodeCombiner.cs" />
-    <Compile Include="RazorTemplates\IRazorTemplateContentReader.cs" />
-    <Compile Include="RazorTemplates\IRazorTemplateEngine.cs" />
     <Compile Include="RazorTemplates\PositionTagged.cs" />
+    <Compile Include="RazorTemplates\TemplateBase.cs" />
+    <Compile Include="RazorTemplates\TemplateEngine\TemplateEngine.cs" />
     <Compile Include="RazorTemplates\TemplateModelWrapper.cs" />
     <Compile Include="RazorTemplates\TemplateRazorEngineHost.cs" />
   </ItemGroup>
@@ -113,6 +105,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Postman\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
